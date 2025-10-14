@@ -3,11 +3,12 @@ package br.com.ifpb.hibernate_restaurant_order_system.Model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Cliente {
 
@@ -27,6 +28,10 @@ public class Cliente {
     @Column(length = 30, unique = true)
     private String email;
 
-    public Cliente() {}
-
+    public Cliente(String nome, String cpf, String telefone, String email) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.email = email;
+    }
 }

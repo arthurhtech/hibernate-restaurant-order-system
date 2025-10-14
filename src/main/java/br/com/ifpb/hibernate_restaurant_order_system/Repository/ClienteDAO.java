@@ -1,8 +1,9 @@
-package br.com.ifpb.hibernate_restaurant_order_system.Repository;
+package br.com.ifpb.hibernate_restaurant_order_system.repository;
 
 import br.com.ifpb.hibernate_restaurant_order_system.Model.Cliente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -11,16 +12,10 @@ public class ClienteDAO {
     @PersistenceContext
     private EntityManager em;
 
-    public void save(Cliente cliente) {
-        try{
-            em.getTransaction().begin();
-            em.persist(cliente);
-            em.getTransaction().commit();
-        }
-        catch(Exception e){
-            em.getTransaction().rollback();
-        }
-        em.close();
+    @Transactional
+    public Cliente save(Cliente cliente) {
+        em.persist(cliente);
+        return cliente;
     }
 
     public void delete(Cliente cliente) {

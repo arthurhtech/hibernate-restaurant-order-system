@@ -4,6 +4,8 @@ import br.com.ifpb.hibernate_restaurant_order_system.Model.Cliente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.List;
+
 public class ClienteDAO {
 
     // EntityManagerFactory
@@ -44,6 +46,13 @@ public class ClienteDAO {
     public Cliente findById(Long id) {
         EntityManager em = emf.createEntityManager();
         return em.find(Cliente.class, id);
+    }
+
+    public List<Cliente> findAll() {
+        EntityManager em = emf.createEntityManager();
+
+        String jpql = "select c from Cliente c";
+        return em.createQuery(jpql, Cliente.class).getResultList();
     }
 
     public void update(Cliente cliente) {

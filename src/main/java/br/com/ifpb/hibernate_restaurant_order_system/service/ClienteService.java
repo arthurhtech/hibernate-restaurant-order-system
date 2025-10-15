@@ -6,6 +6,8 @@ import br.com.ifpb.hibernate_restaurant_order_system.Model.Cliente;
 import br.com.ifpb.hibernate_restaurant_order_system.repository.ClienteDAO;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.List;
+
 public class ClienteService {
 
     private final ClienteDAO clienteDAO;
@@ -32,4 +34,21 @@ public class ClienteService {
         );
     }
 
+    public List<ClienteResponseDTO> findAll() {
+        List<Cliente> clientes = clienteDAO.findAll();
+
+        return clientes.stream()
+                .map(this::converterCliente)
+                .toList();
+    }
+
+    private ClienteResponseDTO converterCliente(Cliente cliente) {
+        return new ClienteResponseDTO(cliente.getId(),
+                cliente.getNome(),
+                cliente.getCpf(),
+                cliente.getTelefone(),
+                cliente.getEmail());
+    }
 }
+
+//

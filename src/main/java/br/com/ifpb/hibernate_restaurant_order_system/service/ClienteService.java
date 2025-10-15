@@ -4,15 +4,15 @@ import br.com.ifpb.hibernate_restaurant_order_system.dto.cliente.ClienteRequestD
 import br.com.ifpb.hibernate_restaurant_order_system.dto.cliente.ClienteResponseDTO;
 import br.com.ifpb.hibernate_restaurant_order_system.Model.Cliente;
 import br.com.ifpb.hibernate_restaurant_order_system.repository.ClienteDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import jakarta.persistence.EntityManagerFactory;
 
-@Service
 public class ClienteService {
 
-    @Autowired
-    private ClienteDAO clienteDAO;
+    private final ClienteDAO clienteDAO;
 
+    public ClienteService(EntityManagerFactory emf) {
+        this.clienteDAO = new ClienteDAO(emf);
+    }
 
     public ClienteResponseDTO save(ClienteRequestDTO clienteRDTO) {
         Cliente cliente = new Cliente(clienteRDTO.getNome(),

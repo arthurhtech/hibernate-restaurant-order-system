@@ -2,24 +2,35 @@ package br.com.ifpb.hibernate_restaurant_order_system.repository;
 
 import br.com.ifpb.hibernate_restaurant_order_system.Model.Cliente;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Repository;
+import jakarta.persistence.EntityManagerFactory;
 
-@Repository
 public class ClienteDAO {
 
-    @PersistenceContext
-    private EntityManager em;
+    // EntityManagerFactory
+    private final EntityManagerFactory emf;
 
-    @Transactional
+    public ClienteDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
     public Cliente save(Cliente cliente) {
-        em.persist(cliente);
-        return cliente;
+        EntityManager em = emf.createEntityManager();
+            try {
+                em.getTransaction().begin();
+                em.persist(cliente);
+                em.getTransaction().commit();
+            } catch (Exception e) {
+                if (em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Erro ao salvar o cliente: " + e.getMessage(), e);
+            }
+            return cliente;
     }
 
     public void delete(Cliente cliente) {
-        try{
+        EntityManager em = emf.createEntityManager();
+            try {
             em.getTransaction().begin();
             em.remove(cliente);
             em.getTransaction().commit();
@@ -30,12 +41,14 @@ public class ClienteDAO {
         em.close();
     }
 
-    public Cliente find(Long id) {
+    public Cliente findById(Long id) {
+        EntityManager em = emf.createEntityManager();
         return em.find(Cliente.class, id);
     }
 
     public void update(Cliente cliente) {
-        try{
+        EntityManager em = emf.createEntityManager();
+        try  {
             em.getTransaction().begin();
             em.merge(cliente);
             em.getTransaction().commit();

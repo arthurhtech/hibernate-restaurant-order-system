@@ -2,7 +2,7 @@ package br.com.ifpb.hibernate_restaurant_order_system.service;
 
 import br.com.ifpb.hibernate_restaurant_order_system.dto.cliente.ClienteRequestDTO;
 import br.com.ifpb.hibernate_restaurant_order_system.dto.cliente.ClienteResponseDTO;
-import br.com.ifpb.hibernate_restaurant_order_system.Model.Cliente;
+import br.com.ifpb.hibernate_restaurant_order_system.model.Cliente;
 import br.com.ifpb.hibernate_restaurant_order_system.repository.ClienteDAO;
 import jakarta.persistence.EntityManagerFactory;
 

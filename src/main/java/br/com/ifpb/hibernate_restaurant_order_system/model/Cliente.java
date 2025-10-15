@@ -1,7 +1,6 @@
-package br.com.ifpb.hibernate_restaurant_order_system.Model;
+package br.com.ifpb.hibernate_restaurant_order_system.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

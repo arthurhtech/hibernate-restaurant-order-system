@@ -1,6 +1,6 @@
 package br.com.ifpb.hibernate_restaurant_order_system.repository;
 
-import br.com.ifpb.hibernate_restaurant_order_system.Model.Cliente;
+import br.com.ifpb.hibernate_restaurant_order_system.model.Cliente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 

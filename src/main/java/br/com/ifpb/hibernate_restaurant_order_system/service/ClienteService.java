@@ -49,6 +49,13 @@ public class ClienteService {
                 cliente.getTelefone(),
                 cliente.getEmail());
     }
+
+    public ClienteResponseDTO findById(Long id) {
+        return converterCliente(clienteDAO.findById(id));
+    }
+
+
+
 }
 
 //

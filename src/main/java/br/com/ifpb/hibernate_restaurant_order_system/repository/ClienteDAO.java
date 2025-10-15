@@ -16,7 +16,7 @@ public class ClienteDAO {
     }
 
     public Cliente save(Cliente cliente) {
-        EntityManager em = emf.createEntityManager();
+        try(EntityManager em = emf.createEntityManager()) {
             try {
                 em.getTransaction().begin();
                 em.persist(cliente);
@@ -28,43 +28,45 @@ public class ClienteDAO {
                 throw new RuntimeException("Erro ao salvar o cliente: " + e.getMessage(), e);
             }
             return cliente;
+        }
     }
 
-    public void delete(Cliente cliente) {
-        EntityManager em = emf.createEntityManager();
+    public void delete(Long id) {
+        try(EntityManager em = emf.createEntityManager()){
             try {
             em.getTransaction().begin();
-            em.remove(cliente);
+            em.remove(findById(id));
             em.getTransaction().commit();
         }
         catch(Exception e){
             em.getTransaction().rollback();
-        }
-        em.close();
+        }}
     }
 
     public Cliente findById(Long id) {
-        EntityManager em = emf.createEntityManager();
-        return em.find(Cliente.class, id);
+        try(EntityManager em = emf.createEntityManager()) {
+            return em.find(Cliente.class, id);
+        }
     }
 
     public List<Cliente> findAll() {
-        EntityManager em = emf.createEntityManager();
-
+        try(EntityManager em = emf.createEntityManager()){
         String jpql = "select c from Cliente c";
         return em.createQuery(jpql, Cliente.class).getResultList();
+        }
     }
 
     public void update(Cliente cliente) {
-        EntityManager em = emf.createEntityManager();
-        try  {
-            em.getTransaction().begin();
-            em.merge(cliente);
-            em.getTransaction().commit();
+        try(EntityManager em = emf.createEntityManager()){
+            try  {
+                em.getTransaction().begin();
+                em.merge(cliente);
+                em.getTransaction().commit();
+            }
+            catch(Exception e) {
+                em.getTransaction().rollback();
+            }
         }
-        catch(Exception e){
-            em.getTransaction().rollback();
-        }
-        em.close();
     }
+
 }

@@ -32,5 +32,13 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.findAll());
     }
 
-
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteResponseDTO> findById(@PathVariable Long id) {
+        ClienteResponseDTO clienteResponseDTO = clienteService.findById(id);
+        if(clienteResponseDTO !=null) {
+            return ResponseEntity.ok(clienteResponseDTO);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

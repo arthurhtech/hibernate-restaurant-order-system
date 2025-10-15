@@ -51,7 +51,14 @@ public class ClienteService {
     }
 
     public ClienteResponseDTO findById(Long id) {
-        return converterCliente(clienteDAO.findById(id));
+
+        Cliente cliente = clienteDAO.findById(id);
+
+        if (cliente != null){
+            return converterCliente(cliente);
+        }
+        return null;
+
     }
 
 

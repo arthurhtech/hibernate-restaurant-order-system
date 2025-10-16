@@ -56,17 +56,18 @@ public class ClienteDAO {
         }
     }
 
-    public void update(Cliente cliente) {
+    public Cliente update(Cliente cliente) {
         try(EntityManager em = emf.createEntityManager()){
             try  {
                 em.getTransaction().begin();
                 em.merge(cliente);
                 em.getTransaction().commit();
+                return cliente;
             }
             catch(Exception e) {
                 em.getTransaction().rollback();
             }
         }
+        return null;
     }
-
 }

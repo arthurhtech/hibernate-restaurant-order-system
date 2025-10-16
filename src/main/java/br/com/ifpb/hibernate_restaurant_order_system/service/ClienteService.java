@@ -25,13 +25,7 @@ public class ClienteService {
 
         Cliente clienteSalvo = clienteDAO.save(cliente);
 
-        return new ClienteResponseDTO(
-                clienteSalvo.getId(),
-                clienteSalvo.getNome(),
-                clienteSalvo.getCpf(),
-                clienteSalvo.getTelefone(),
-                clienteSalvo.getEmail()
-        );
+        return converterCliente(clienteSalvo);
     }
 
     public List<ClienteResponseDTO> findAll() {
@@ -61,7 +55,22 @@ public class ClienteService {
 
     }
 
+    public ClienteResponseDTO updateById(Long id, ClienteRequestDTO clienteRDTO) {
+        Cliente cliente = clienteDAO.findById(id);
 
+        if (cliente == null){
+            return null;
+        }
+
+        cliente.setNome(clienteRDTO.getNome());
+        cliente.setCpf(clienteRDTO.getCpf());
+        cliente.setTelefone(clienteRDTO.getTelefone());
+        cliente.setEmail(clienteRDTO.getEmail());
+
+        Cliente clienteAtualizado = clienteDAO.update(cliente);
+
+        return converterCliente(clienteAtualizado);
+    }
 
 }
 

@@ -1,9 +1,10 @@
 package br.com.ifpb.hibernate_restaurant_order_system.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Setter;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 
 @Setter
 @Getter

@@ -41,4 +41,16 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteResponseDTO> update(@PathVariable Long id, @RequestBody ClienteRequestDTO clienteRDTO) {
+
+        ClienteResponseDTO clienteResponseDTO = clienteService.updateById(id, clienteRDTO);
+
+        if(clienteResponseDTO !=null) {
+            return ResponseEntity.ok(clienteResponseDTO);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

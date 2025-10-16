@@ -5,6 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@Entity
 public class Prato {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

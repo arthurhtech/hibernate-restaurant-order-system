@@ -6,6 +6,9 @@ import br.com.ifpb.hibernate_restaurant_order_system.model.Prato;
 import br.com.ifpb.hibernate_restaurant_order_system.repository.PratoDAO;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class PratoService {
 
     private final PratoDAO pratoDAO;
@@ -28,5 +31,11 @@ public class PratoService {
                 prato.getNome(),
                 prato.getDescricao(),
                 prato.getPreco());
+    }
+
+    public List<PratoResponseDTO> findAll() {
+        List<Prato> pratos = pratoDAO.findAll();
+
+        return pratos.stream().map(prato -> converterPrato(prato)).collect(Collectors.toList());
     }
 }

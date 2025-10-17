@@ -35,12 +35,19 @@ public class ClienteDAO {
         try(EntityManager em = emf.createEntityManager()){
             try {
             em.getTransaction().begin();
-            em.remove(findById(id));
+            Cliente cliente = em.find(Cliente.class, id);
+
+            if(cliente != null){
+                em.remove(cliente);
+            }
             em.getTransaction().commit();
+            }
+            catch(Exception e){
+                em.getTransaction().rollback();
+
+                throw new RuntimeException("Erro ao deletar o cliente: " + e.getMessage(), e);
+            }
         }
-        catch(Exception e){
-            em.getTransaction().rollback();
-        }}
     }
 
     public Cliente findById(Long id) {
@@ -66,8 +73,9 @@ public class ClienteDAO {
             }
             catch(Exception e) {
                 em.getTransaction().rollback();
+
+                throw new RuntimeException("Erro ao atualizar o cliente: " + e.getMessage(), e);
             }
         }
-        return null;
     }
 }

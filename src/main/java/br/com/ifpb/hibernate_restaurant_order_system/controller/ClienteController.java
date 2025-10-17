@@ -53,4 +53,13 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ClienteResponseDTO> delete(@PathVariable Long id) {
+        boolean deleted = clienteService.deleteById(id);
+        if(deleted) return ResponseEntity.noContent().build();
+        else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

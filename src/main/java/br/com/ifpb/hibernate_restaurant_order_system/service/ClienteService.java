@@ -72,13 +72,13 @@ public class ClienteService {
         return converterCliente(clienteAtualizado);
     }
 
-    public ClienteResponseDTO deleteById(Long id) {
+    public boolean deleteById(Long id) {
         Cliente cliente = clienteDAO.findById(id);
         if (cliente == null){
-            return null;
+            return false;
         }
         clienteDAO.delete(id);
-        return converterCliente(cliente);
+        return true;
     }
 
 }

@@ -24,8 +24,8 @@ public class Prato {
     @Column(nullable = false)
     private double preco;
 
-    public Prato(long id, String nome, String descricao, double preco) {
-        this.id = id;
+    public Prato( String nome, String descricao, double preco) {
+
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;

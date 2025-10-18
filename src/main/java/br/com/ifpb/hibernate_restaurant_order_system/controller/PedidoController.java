@@ -3,6 +3,8 @@ package br.com.ifpb.hibernate_restaurant_order_system.controller;
 import br.com.ifpb.hibernate_restaurant_order_system.dto.pedido.PedidoRequestDTO;
 import br.com.ifpb.hibernate_restaurant_order_system.dto.pedido.PedidoResponseDTO;
 import br.com.ifpb.hibernate_restaurant_order_system.service.PedidoService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +21,8 @@ public class PedidoController {
     private final PedidoService pedidoService;
 
     // Injeção de dependência do PedidoService
-    public PedidoController(PedidoService pedidoService) {
-        this.pedidoService = pedidoService;
+    public PedidoController(EntityManagerFactory emf) {
+        this.pedidoService = new PedidoService(emf);
     }
 
     // Endpoint para criar um novo pedido.

@@ -5,7 +5,6 @@ import br.com.ifpb.hibernate_restaurant_order_system.dto.prato.PratoResponseDTO;
 import br.com.ifpb.hibernate_restaurant_order_system.model.Prato;
 import br.com.ifpb.hibernate_restaurant_order_system.repository.PratoDAO;
 import jakarta.persistence.EntityManagerFactory;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,24 +17,34 @@ public class PratoService {
     }
 
     public PratoResponseDTO save(PratoRequestDTO pratoRequestDTO) {
-        Prato prato = new Prato(pratoRequestDTO.getNome(),
-                pratoRequestDTO.getDescricao(),
-                pratoRequestDTO.getPreco());
+        // A entidade espera um BigDecimal
+        Prato prato = new Prato(
+            pratoRequestDTO.getNome(),
+            pratoRequestDTO.getDescricao(),
+            pratoRequestDTO.getPreco()
+        );
 
         Prato pratoSalvo = pratoDAO.save(prato);
-        return converterPrato(pratoSalvo);
-    }
-
-    public PratoResponseDTO converterPrato(Prato prato) {
-        return new PratoResponseDTO(prato.getId(),
-                prato.getNome(),
-                prato.getDescricao(),
-                prato.getPreco());
+        // Chama o método conversor privado
+        return converterParaDTO(pratoSalvo);
     }
 
     public List<PratoResponseDTO> findAll() {
         List<Prato> pratos = pratoDAO.findAll();
+        // Usa o método conversor para mapear a lista
+        return pratos.stream()
+                     .map(this::converterParaDTO)
+                     .collect(Collectors.toList());
+    }
 
-        return pratos.stream().map(prato -> converterPrato(prato)).collect(Collectors.toList());
+    // Método conversor privado
+    private PratoResponseDTO converterParaDTO(Prato prato) {
+        if (prato == null) return null;
+        return new PratoResponseDTO(
+                prato.getId(),
+                prato.getNome(),
+                prato.getDescricao(),
+                prato.getPreco()
+        );
     }
 }

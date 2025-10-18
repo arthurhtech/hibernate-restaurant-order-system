@@ -4,7 +4,6 @@ import br.com.ifpb.hibernate_restaurant_order_system.dto.cliente.ClienteRequestD
 import br.com.ifpb.hibernate_restaurant_order_system.dto.cliente.ClienteResponseDTO;
 import br.com.ifpb.hibernate_restaurant_order_system.service.ClienteService;
 import jakarta.persistence.EntityManagerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,6 @@ public class ClienteController {
 
     private final ClienteService clienteService;
 
-    @Autowired
     public ClienteController(EntityManagerFactory emf) {
         this.clienteService = new ClienteService(emf);
     }

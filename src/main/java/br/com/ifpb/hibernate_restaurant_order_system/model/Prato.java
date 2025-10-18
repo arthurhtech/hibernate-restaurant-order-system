@@ -1,5 +1,7 @@
 package br.com.ifpb.hibernate_restaurant_order_system.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 import lombok.Setter;
 import lombok.Getter;
@@ -22,9 +24,9 @@ public class Prato {
     private String descricao;
 
     @Column(nullable = false)
-    private double preco;
+    private BigDecimal preco;
 
-    public Prato( String nome, String descricao, double preco) {
+    public Prato( String nome, String descricao, BigDecimal preco) {
 
         this.nome = nome;
         this.descricao = descricao;

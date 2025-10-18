@@ -27,6 +27,14 @@ public class PratoDAO {
             return prato;
         }
     }
+
+    public Prato findById(long id) {
+        try(EntityManager em = emf.createEntityManager()){
+            return em.find(Prato.class, id);
+        }
+    }
+
+    
     public List<Prato> findAll() {
         try(EntityManager em = emf.createEntityManager()){
             String jpql = "select p from Prato p";

@@ -34,55 +34,37 @@ public class PedidoDAO {
 
 
     // Método para buscar um Pedido pelo seu ID
+
     public Pedido findById(Long id) {
         try(EntityManager em = emf.createEntityManager()) {
-            return em.find(Pedido.class, id);
+            // Usamos JOIN FETCH para carregar o cliente e a lista de pratos
+            // na mesma consulta. Usamos LEFT JOIN FETCH para o caso de um pedido
+            // não ter pratos.
+            String jpql = "SELECT p FROM Pedido p " +
+                    "JOIN FETCH p.cliente " +
+                    "LEFT JOIN FETCH p.pratos " +
+                    "WHERE p.id = :id";
+
+            // Usamos getResultList() pois find() não suporta fetch joins
+            List<Pedido> result = em.createQuery(jpql, Pedido.class)
+                    .setParameter("id", id)
+                    .getResultList();
+
+            // Retorna o primeiro resultado, ou null se a lista estiver vazia
+            return result.isEmpty() ? null : result.getFirst();
         }
     }
 
     // Método para buscar todos os Pedidos no banco de dados
     public List<Pedido> findAll() {
         try(EntityManager em = emf.createEntityManager()){
-            return em.createQuery("SELECT p FROM Pedido p", Pedido.class).getResultList();
+            // Usamos DISTINCT para garantir que cada Pedido apareça apenas uma vez,
+            // mesmo que ele tenha múltiplos pratos (o que causaria duplicatas no JOIN).
+            String jpql = "SELECT DISTINCT p FROM Pedido p " +
+                    "JOIN FETCH p.cliente " +
+                    "LEFT JOIN FETCH p.pratos";
+
+            return em.createQuery(jpql, Pedido.class).getResultList();
         }
     }
-
-
-    // Método para atualizar um Pedido existente
-    public Pedido update(Pedido pedido) {
-        try(EntityManager em = emf.createEntityManager()) {
-            try {
-                em.getTransaction().begin();
-                Pedido updatedPedido = em.merge(pedido);
-                em.getTransaction().commit();
-                return updatedPedido;
-            } catch (Exception e) {
-                if (em.getTransaction().isActive()) {
-                    em.getTransaction().rollback();
-                }
-                throw new RuntimeException("Erro ao atualizar o pedido: " + e.getMessage(), e);
-            }
-        }
-    }
-
-    // Método para deletar um Pedido pelo seu ID
-    public void delet(Long id) {
-        try(EntityManager em = emf.createEntityManager()){
-            try {
-                em.getTransaction().begin();
-                Pedido pedido = em.find(Pedido.class, id);
-
-                if(pedido != null){
-                    em.remove(pedido);
-                }
-                em.getTransaction().commit();
-            }
-            catch(Exception e){
-                em.getTransaction().rollback();
-
-                throw new RuntimeException("Erro ao deletar o pedido: " + e.getMessage(), e);
-            }
-        }
-    }
-
 }

@@ -17,7 +17,7 @@ public class PratoService {
     }
 
     public PratoResponseDTO save(PratoRequestDTO pratoRequestDTO) {
-        // A entidade espera um BigDecimal
+
         Prato prato = new Prato(
             pratoRequestDTO.getNome(),
             pratoRequestDTO.getDescricao(),
@@ -25,19 +25,17 @@ public class PratoService {
         );
 
         Prato pratoSalvo = pratoDAO.save(prato);
-        // Chama o método conversor privado
         return converterParaDTO(pratoSalvo);
     }
 
     public List<PratoResponseDTO> findAll() {
         List<Prato> pratos = pratoDAO.findAll();
-        // Usa o método conversor para mapear a lista
+
         return pratos.stream()
                      .map(this::converterParaDTO)
                      .collect(Collectors.toList());
     }
 
-    // Método conversor privado
     private PratoResponseDTO converterParaDTO(Prato prato) {
         if (prato == null) return null;
         return new PratoResponseDTO(
@@ -46,5 +44,41 @@ public class PratoService {
                 prato.getDescricao(),
                 prato.getPreco()
         );
+    }
+    public PratoResponseDTO findById(long id) {
+        Prato prato = pratoDAO.findById(id);
+
+        if (prato != null) {
+            return converterParaDTO(prato);
+        }
+        return null;
+    }
+
+    public PratoResponseDTO updateById(long id, PratoRequestDTO pratoRequestDTO) {
+
+        Prato prato = pratoDAO.findById(id);
+
+        if (prato == null) {
+            return null;
+        }
+
+        prato.setNome(pratoRequestDTO.getNome());
+        prato.setDescricao(pratoRequestDTO.getDescricao());
+        prato.setPreco(pratoRequestDTO.getPreco());
+
+        Prato pratoAtualizado = pratoDAO.update(prato);
+
+        return converterParaDTO(pratoAtualizado);
+    }
+
+    public boolean deleteById(long id) {
+
+        Prato prato = pratoDAO.findById(id);
+
+        if (prato == null) {
+            return false;
+        }
+        pratoDAO.delete(id);
+        return true;
     }
 }

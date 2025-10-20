@@ -30,4 +30,39 @@ public class PratoController {
         return ResponseEntity.ok(pratoService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PratoResponseDTO> findById(@PathVariable Long id) {
+        // (Segue o padrão do ClienteController: findById retorna DTO ou null)
+        PratoResponseDTO pratoResponseDTO = pratoService.findById(id);
+
+        if(pratoResponseDTO != null) {
+            return ResponseEntity.ok(pratoResponseDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PratoResponseDTO> update(@PathVariable Long id, @RequestBody PratoRequestDTO pratoRequestDTO) {
+        // (Segue o padrão do ClienteController: updateById retorna DTO ou null)
+        PratoResponseDTO pratoResponseDTO = pratoService.updateById(id, pratoRequestDTO);
+
+        if(pratoResponseDTO != null) {
+            return ResponseEntity.ok(pratoResponseDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PratoResponseDTO> delete(@PathVariable Long id) {
+        // (Segue o padrão do ClienteController: deleteById retorna boolean)
+        boolean deleted = pratoService.deleteById(id);
+
+        if(deleted) {
+            return ResponseEntity.noContent().build(); // HTTP 204
+        } else {
+            return ResponseEntity.notFound().build(); // HTTP 404
+        }
+    }
 }

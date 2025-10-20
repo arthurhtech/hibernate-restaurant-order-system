@@ -97,7 +97,7 @@ public class PedidoService {
         return new PedidoResponseDTO(
                 pedido.getId(),
                 pedido.getData().toString(),
-                pedido.getValorTotal() == null ? null : pedido.getValorTotal().doubleValue(),
+                pedido.getValorTotal() == null ? null : pedido.getValorTotal(),
                 pedido.getCliente().getId(),
                 pratosDto
         );

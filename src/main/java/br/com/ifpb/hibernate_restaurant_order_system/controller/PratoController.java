@@ -32,7 +32,7 @@ public class PratoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PratoResponseDTO> findById(@PathVariable Long id) {
-        // (Segue o padrão do ClienteController: findById retorna DTO ou null)
+
         PratoResponseDTO pratoResponseDTO = pratoService.findById(id);
 
         if(pratoResponseDTO != null) {
@@ -44,7 +44,7 @@ public class PratoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PratoResponseDTO> update(@PathVariable Long id, @RequestBody PratoRequestDTO pratoRequestDTO) {
-        // (Segue o padrão do ClienteController: updateById retorna DTO ou null)
+
         PratoResponseDTO pratoResponseDTO = pratoService.updateById(id, pratoRequestDTO);
 
         if(pratoResponseDTO != null) {
@@ -56,13 +56,13 @@ public class PratoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<PratoResponseDTO> delete(@PathVariable Long id) {
-        // (Segue o padrão do ClienteController: deleteById retorna boolean)
+
         boolean deleted = pratoService.deleteById(id);
 
         if(deleted) {
-            return ResponseEntity.noContent().build(); // HTTP 204
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build(); // HTTP 404
+            return ResponseEntity.notFound().build();
         }
     }
 }

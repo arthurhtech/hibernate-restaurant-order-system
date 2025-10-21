@@ -14,22 +14,25 @@ import java.util.List;
 public class ClienteController {
 
     private final ClienteService clienteService;
-
+    // Construtor para injetar o EntityManagerFactory (usado pelo Service)
     public ClienteController(EntityManagerFactory emf) {
         this.clienteService = new ClienteService(emf);
     }
 
+    // Endpoint para criar um novo cliente
     @PostMapping
     public ResponseEntity<ClienteResponseDTO> save(@RequestBody ClienteRequestDTO clienteRequestDTO) {
         ClienteResponseDTO clienteResponseDTO = clienteService.save(clienteRequestDTO);
         return ResponseEntity.status(201).body(clienteResponseDTO);
     }
 
+    // Endpoint para listar todos os clientes
     @GetMapping
     public ResponseEntity<List<ClienteResponseDTO>> listAll() {
         return ResponseEntity.ok(clienteService.findAll());
     }
 
+    // Endpoint para buscar um cliente específico pelo ID
     @GetMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> findById(@PathVariable Long id) {
         ClienteResponseDTO clienteResponseDTO = clienteService.findById(id);
@@ -40,6 +43,7 @@ public class ClienteController {
         }
     }
 
+    // Endpoint para atualizar um cliente existente pelo ID
     @PutMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> update(@PathVariable Long id, @RequestBody ClienteRequestDTO clienteRDTO) {
 
@@ -52,6 +56,7 @@ public class ClienteController {
         }
     }
 
+    // Endpoint para deletar um cliente pelo ID
     @DeleteMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> delete(@PathVariable Long id) {
         boolean deleted = clienteService.deleteById(id);

@@ -16,6 +16,7 @@ public class ClienteService {
         this.clienteDAO = new ClienteDAO(emf);
     }
 
+    // Converte DTO para Entidade e salva
     public ClienteResponseDTO save(ClienteRequestDTO clienteRDTO) {
         Cliente cliente = new Cliente(clienteRDTO.getNome(),
                                       clienteRDTO.getCpf(),
@@ -27,7 +28,7 @@ public class ClienteService {
 
         return converterCliente(clienteSalvo);
     }
-
+    // Busca todos os clientes e converte para DTO
     public List<ClienteResponseDTO> findAll() {
         List<Cliente> clientes = clienteDAO.findAll();
 
@@ -35,7 +36,7 @@ public class ClienteService {
                 .map(this::converterCliente)
                 .toList();
     }
-
+    // Métod utilitário para converter Entidade Cliente para DTO
     private ClienteResponseDTO converterCliente(Cliente cliente) {
         return new ClienteResponseDTO(cliente.getId(),
                 cliente.getNome(),
@@ -44,6 +45,7 @@ public class ClienteService {
                 cliente.getEmail());
     }
 
+    // Busca um cliente por ID e converte para DTO
     public ClienteResponseDTO findById(Long id) {
 
         Cliente cliente = clienteDAO.findById(id);
@@ -55,6 +57,7 @@ public class ClienteService {
 
     }
 
+    // Atualiza um cliente existente a partir de um DTO
     public ClienteResponseDTO updateById(Long id, ClienteRequestDTO clienteRDTO) {
         Cliente cliente = clienteDAO.findById(id);
 
@@ -72,6 +75,7 @@ public class ClienteService {
         return converterCliente(clienteAtualizado);
     }
 
+    // Deleta um cliente por ID
     public boolean deleteById(Long id) {
         Cliente cliente = clienteDAO.findById(id);
         if (cliente == null){

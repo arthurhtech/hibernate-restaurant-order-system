@@ -45,7 +45,7 @@ public class PedidoController {
             PedidoResponseDTO responseDTO = pedidoService.findById(id);
             return ResponseEntity.ok(responseDTO);
         } catch (RuntimeException e) {
-            // O service lança uma exceção se não encontrar, que capturamos aqui para retornar 404.
+            // O service lança uma exceção se não encontrar
             return ResponseEntity.notFound().build();
         }
     }

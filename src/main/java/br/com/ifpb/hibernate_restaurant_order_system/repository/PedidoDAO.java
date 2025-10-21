@@ -14,8 +14,6 @@ public class PedidoDAO {
         this.emf = emf;
     }
 
-    // Método para salvar um novo Pedido no banco de dados
-
     public Pedido save(Pedido pedido) {
         try(EntityManager em = emf.createEntityManager()) {
             try {
@@ -32,14 +30,13 @@ public class PedidoDAO {
         }
     }
 
-
-    // Método para buscar um Pedido pelo seu ID
-
     public Pedido findById(Long id) {
         try(EntityManager em = emf.createEntityManager()) {
+
             // Usamos JOIN FETCH para carregar o cliente e a lista de pratos
             // na mesma consulta. Usamos LEFT JOIN FETCH para o caso de um pedido
             // não ter pratos.
+
             String jpql = "SELECT p FROM Pedido p " +
                     "JOIN FETCH p.cliente " +
                     "LEFT JOIN FETCH p.pratos " +
@@ -55,11 +52,12 @@ public class PedidoDAO {
         }
     }
 
-    // Método para buscar todos os Pedidos no banco de dados
     public List<Pedido> findAll() {
         try(EntityManager em = emf.createEntityManager()){
+
             // Usamos DISTINCT para garantir que cada Pedido apareça apenas uma vez,
             // mesmo que ele tenha múltiplos pratos (o que causaria duplicatas no JOIN).
+
             String jpql = "SELECT DISTINCT p FROM Pedido p " +
                     "JOIN FETCH p.cliente " +
                     "LEFT JOIN FETCH p.pratos";

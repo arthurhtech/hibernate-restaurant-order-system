@@ -3,7 +3,6 @@ package br.com.ifpb.hibernate_restaurant_order_system.controller;
 import br.com.ifpb.hibernate_restaurant_order_system.dto.pedido.PedidoRequestDTO;
 import br.com.ifpb.hibernate_restaurant_order_system.dto.pedido.PedidoResponseDTO;
 import br.com.ifpb.hibernate_restaurant_order_system.service.PedidoService;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
